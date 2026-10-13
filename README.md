@@ -14,6 +14,8 @@
 [![KaTeX](https://img.shields.io/badge/KaTeX-fórmulas-329894?style=flat-square)](https://katex.org)
 [![ECharts](https://img.shields.io/badge/ECharts-gráficos-aa344d?style=flat-square&logo=apacheecharts&logoColor=white)](https://echarts.apache.org)
 [![License](https://img.shields.io/badge/License-MIT-339933?style=flat-square)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/carlos-anpr/plume?style=flat-square&color=5b54e6&label=Descargar)](https://github.com/carlos-anpr/plume/releases/latest)
+[![CI](https://img.shields.io/github/actions/workflow/status/carlos-anpr/plume/ci.yml?branch=main&style=flat-square&label=CI)](https://github.com/carlos-anpr/plume/actions/workflows/ci.yml)
 
 **La sencillez del Bloc de notas de Windows, con una vista previa de Markdown que dibuja diagramas, fórmulas, gráficos y tablas mientras escribes. Nativo, ligero, sin conexión y open source.**
 
@@ -139,7 +141,22 @@ Tienes dos documentos de ejemplo en [`docs/muestra.md`](docs/muestra.md) y [`doc
 
 ## 🚀 Instalación
 
-### Ubuntu / Debian (paquete `.deb`)
+### Descarga directa
+
+En la [**última release**](https://github.com/carlos-anpr/plume/releases/latest) tienes el instalador para cada sistema:
+
+| Sistema | Fichero | Instalación |
+|---|---|---|
+| Ubuntu / Debian | `Plume_*_amd64.deb` | `sudo apt install ./Plume_*_amd64.deb` |
+| Fedora / openSUSE | `Plume-*.x86_64.rpm` | `sudo dnf install ./Plume-*.x86_64.rpm` |
+| Cualquier Linux | `Plume_*_amd64.AppImage` | `chmod +x Plume_*.AppImage` y doble clic |
+| Windows | `Plume_*_x64-setup.exe` / `.msi` | doble clic |
+| macOS | `Plume_*_universal.dmg` | arrastrar a Aplicaciones |
+
+> [!NOTE]
+> Los instaladores de Windows y macOS no están firmados: Windows mostrará SmartScreen (*Más información → Ejecutar de todas formas*) y en macOS la primera vez hay que abrirlo con clic derecho → *Abrir*.
+
+### Compilar desde el código (`.deb`)
 
 ```bash
 git clone https://github.com/carlos-anpr/plume.git
@@ -160,7 +177,7 @@ Compila, instala en `~/.local`, añade Plume al cajón de aplicaciones y lo regi
 
 - [Rust](https://rustup.rs) 1.85+ y Node.js 20+
 - Linux: `libwebkit2gtk-4.1-dev`, `libgtk-3-dev`, `libsoup-3.0-dev`, `librsvg2-dev` ([guía de Tauri](https://tauri.app/start/prerequisites/))
-- Windows y macOS: Plume compila con las mismas órdenes gracias a Tauri, pero solo se ha probado en Linux.
+- Windows y macOS: mismas órdenes. Los instaladores de la release se compilan en GitHub Actions; el uso diario solo se ha probado en Linux.
 
 ## ⌨️ Atajos
 
