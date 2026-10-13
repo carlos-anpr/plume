@@ -328,7 +328,12 @@ button {
     box-shadow var(--dur-fast) var(--ease-out);
 }
 
-.seg-btn:hover {
+.seg-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.seg-btn:hover:not(:disabled) {
   color: var(--fg);
 }
 

@@ -367,6 +367,9 @@ export class App implements AppCtx {
       this.view.dispatch({ selection: EditorSelection.cursor(pos) });
       this.view.scrollDOM.scrollTop = tab.scrollTop;
     });
+    // Un .txt nunca enseña la vista previa: si no, quedaría a la vista lo de otra pestaña.
+    if (!tab.previewable) tab.mode = "editor";
+    this.clearPreviewIfStale(tab);
     this.workbench.dataset.mode = tab.mode;
     this.applySplitRatio();
     this.renderAll();
@@ -473,6 +476,7 @@ export class App implements AppCtx {
     tab.path = path;
     tab.name = basename(path);
     tab.previewable = isPreviewablePath(path);
+    if (!tab.previewable && tab.mode !== "editor" && tab.id === this.activeId) this.setMode("editor");
     this.watchIfNeeded(path);
     const ok = await this.saveTab(id);
     if (ok) {
@@ -492,6 +496,10 @@ export class App implements AppCtx {
   setMode(mode: ViewMode): void {
     const tab = this.activeTab;
     if (!tab) return;
+    if (mode !== "editor" && !tab.previewable) {
+      toast("La vista previa es solo para ficheros Markdown (.md)", "info");
+      mode = "editor";
+    }
     tab.mode = mode;
     this.workbench.dataset.mode = mode;
     this.updateSeg();
@@ -787,6 +795,8 @@ export class App implements AppCtx {
     this.persistSession();
   }
 
+  /** Pestaña cuyo contenido está pintado en la vista previa; si no es la activa, se vacía. */
+  private previewTabId: string | null = null;
   private renderTimer: number | undefined;
   private renderInFlight = false;
   private renderPending = false;
@@ -812,9 +822,15 @@ export class App implements AppCtx {
     }
     this.renderInFlight = true;
     try {
+      this.clearPreviewIfStale(tab);
       const result = await this.ensureRender(tab);
-      if (!result || tab.id !== this.activeId) return;
+      if (tab.id !== this.activeId) return;
+      if (!result) {
+        await this.clearPreview();
+        return;
+      }
       await this.preview.update(result, tab.path ? dirname(tab.path) : null);
+      this.previewTabId = tab.id;
       if (this.settings.outlineOpen) this.outline.render(result.toc, this.currentEditorLine());
     } finally {
       this.renderInFlight = false;
@@ -823,6 +839,18 @@ export class App implements AppCtx {
         this.maybeRenderPreview(false);
       }
     }
+  }
+
+  private clearPreviewIfStale(tab: Tab | null): void {
+    if (this.previewTabId !== null && this.previewTabId !== tab?.id) void this.clearPreview();
+  }
+
+  private async clearPreview(): Promise<void> {
+    this.previewTabId = null;
+    await this.preview.update(
+      { html: "", toc: [], stats: { words: 0, chars: 0, lines: 0, reading_minutes: 0 }, front_matter: null },
+      null,
+    );
   }
 
   private async ensureRender(tab: Tab): Promise<RenderResult | null> {
@@ -1039,6 +1067,7 @@ export class App implements AppCtx {
         h("span", { class: "seg-label" }, label),
       ) as HTMLButtonElement;
       btn.dataset.mode = mode;
+      btn.dataset.title = title;
       btn.addEventListener("click", () => this.setMode(mode));
       this.segBtns[mode] = btn;
       seg.append(btn);
@@ -1056,6 +1085,9 @@ export class App implements AppCtx {
     const tab = this.activeTab;
     for (const [mode, btn] of Object.entries(this.segBtns) as Array<[ViewMode, HTMLButtonElement]>) {
       btn.classList.toggle("seg-active", tab?.mode === mode);
+      const off = mode !== "editor" && !!tab && !tab.previewable;
+      btn.disabled = off;
+      btn.title = off ? "Vista previa solo para ficheros Markdown (.md)" : (btn.dataset.title ?? btn.title);
     }
     this.outlineBtn?.classList.toggle("icon-btn-active", this.settings.outlineOpen);
     this.toolbar.refresh();
