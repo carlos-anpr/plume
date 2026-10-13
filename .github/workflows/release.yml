@@ -1,0 +1,69 @@
+name: Release
+
+# Publica una release al subir una etiqueta vX.Y.Z (la versión sale de tauri.conf.json).
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: ubuntu-22.04
+            args: ""
+          - platform: windows-latest
+            args: ""
+          - platform: macos-latest
+            args: "--target universal-apple-darwin"
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Dependencias del sistema (Linux)
+        if: matrix.platform == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libgtk-3-dev libsoup-3.0-dev librsvg2-dev libayatana-appindicator3-dev patchelf rpm
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: v__VERSION__
+          releaseName: "Plume v__VERSION__"
+          releaseBody: |
+            ## Descargas
+
+            | Sistema | Fichero |
+            |---|---|
+            | Ubuntu / Debian | `Plume_*_amd64.deb` → `sudo apt install ./Plume_*_amd64.deb` |
+            | Fedora / openSUSE | `Plume-*.x86_64.rpm` → `sudo dnf install ./Plume-*.x86_64.rpm` |
+            | Cualquier Linux | `Plume_*_amd64.AppImage` → `chmod +x` y doble clic |
+            | Windows | `Plume_*_x64-setup.exe` o `.msi` |
+            | macOS (Intel y Apple Silicon) | `Plume_*_universal.dmg` |
+
+            Las compilaciones de Windows y macOS no están firmadas: Windows mostrará SmartScreen ("Más información → Ejecutar de todas formas") y en macOS hay que abrirla con clic derecho → Abrir la primera vez.
+          releaseDraft: false
+          prerelease: false
+          args: ${{ matrix.args }}
