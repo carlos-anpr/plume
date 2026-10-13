@@ -1,0 +1,638 @@
+.plume-preview {
+  box-sizing: border-box;
+  max-width: calc(76ch + 5rem);
+  margin: 0 auto;
+  padding: 2.8rem 2.5rem 5rem;
+  color: var(--fg);
+  background: var(--bg-surface);
+  font-family: var(--font-read);
+  font-size: calc(var(--text-read) * var(--zoom, 1));
+  line-height: 1.75;
+  overflow-wrap: break-word;
+  -webkit-font-smoothing: antialiased;
+}
+.plume-preview *,
+.plume-preview *::before,
+.plume-preview *::after {
+  box-sizing: border-box;
+}
+.plume-preview > :first-child {
+  margin-top: 0;
+}
+.plume-preview p,
+.plume-preview ul,
+.plume-preview ol,
+.plume-preview dl {
+  margin: 0 0 1.35em;
+}
+.plume-preview h1,
+.plume-preview h2,
+.plume-preview h3,
+.plume-preview h4,
+.plume-preview h5,
+.plume-preview h6 {
+  position: relative;
+  margin: 2.1em 0 0.7em;
+  font-family: var(--font-ui);
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+  font-weight: 650;
+  scroll-margin-top: 1.5rem;
+}
+.plume-preview h1 {
+  font-size: 2.2em;
+  font-weight: 720;
+  letter-spacing: -0.045em;
+  margin-bottom: 0.9em;
+}
+.plume-preview h2 {
+  font-size: 1.55em;
+  padding-bottom: 0.4em;
+  border-bottom: 1px solid var(--border);
+}
+.plume-preview h3 {
+  font-size: 1.22em;
+}
+.plume-preview h4 {
+  font-size: 1.05em;
+}
+.plume-preview h5,
+.plume-preview h6 {
+  font-size: 1em;
+  color: var(--fg-muted);
+}
+.plume-preview a {
+  color: var(--accent);
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: 1px;
+}
+.plume-preview a:hover {
+  color: var(--accent-hover);
+}
+.plume-preview :focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+  border-radius: var(--radius-sm);
+}
+.plume-preview .plume-heading-anchor {
+  opacity: 0;
+  margin-left: 0.45em;
+  color: var(--fg-subtle);
+  text-decoration: none;
+  font-size: 0.8em;
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+.plume-preview :is(h1, h2, h3, h4, h5, h6):hover .plume-heading-anchor,
+.plume-preview .plume-heading-anchor:focus-visible {
+  opacity: 1;
+}
+.plume-preview strong {
+  font-weight: 650;
+}
+.plume-preview li {
+  padding-left: 0.2em;
+  margin: 0.3em 0;
+}
+.plume-preview li > p {
+  margin-bottom: 0.6em;
+}
+.plume-preview li > :is(ul, ol) {
+  margin-bottom: 0.4em;
+}
+.plume-preview li::marker {
+  color: var(--fg-muted);
+}
+.plume-preview input[type="checkbox"] {
+  accent-color: var(--accent);
+  margin-right: 0.45em;
+}
+.plume-preview blockquote {
+  margin: 1.6em 0;
+  padding: 0.8em 1.3em;
+  border-left: 3px solid var(--accent);
+  color: var(--fg-muted);
+  background: var(--bg-hover);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+.plume-preview blockquote > :last-child {
+  margin-bottom: 0;
+}
+.plume-preview .markdown-alert {
+  --alert-color: var(--info);
+  margin: 1.6em 0;
+  padding: 1em 1.3em;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--alert-color);
+  border-radius: var(--radius-md);
+  background: var(--bg-raised);
+  box-shadow: var(--shadow-sm);
+}
+.plume-preview .markdown-alert-tip {
+  --alert-color: var(--success);
+}
+.plume-preview .markdown-alert-important {
+  --alert-color: var(--accent);
+}
+.plume-preview .markdown-alert-warning {
+  --alert-color: var(--warning);
+}
+.plume-preview .markdown-alert-caution {
+  --alert-color: var(--danger);
+}
+.plume-preview .markdown-alert-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  color: var(--alert-color);
+  font-family: var(--font-ui);
+  font-weight: 650;
+  font-size: 0.9em;
+  margin-bottom: 0.55em;
+}
+.plume-preview .markdown-alert-title svg {
+  width: 1.2em;
+  height: 1.2em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+.plume-preview .markdown-alert > :last-child {
+  margin-bottom: 0;
+}
+.plume-preview table {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  overflow-x: auto;
+  margin: 1.7em 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.9em;
+}
+.plume-preview th,
+.plume-preview td {
+  padding: 0.65em 1em;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.plume-preview th {
+  position: sticky;
+  top: 0;
+  background: var(--bg-chrome);
+  color: var(--fg-muted);
+  font-family: var(--font-ui);
+  font-size: 0.9em;
+  font-weight: 650;
+}
+.plume-preview th[align="right"],
+.plume-preview td[align="right"] {
+  text-align: right;
+}
+.plume-preview th[align="center"],
+.plume-preview td[align="center"] {
+  text-align: center;
+}
+.plume-preview tbody tr:nth-child(even) {
+  background: var(--bg-hover);
+}
+.plume-preview tr:last-child td {
+  border-bottom: none;
+}
+.plume-preview code,
+.plume-preview kbd,
+.plume-preview pre {
+  font-family: var(--font-mono);
+}
+.plume-preview :not(pre) > code {
+  font-size: 0.86em;
+  padding: 0.16em 0.4em;
+  background: var(--bg-sunken);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+.plume-preview pre {
+  white-space: pre;
+  margin: 1.65em 0;
+  font-size: 0.82em;
+  line-height: 1.7;
+}
+.plume-preview pre.plume-code {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-sunken);
+  box-shadow: var(--shadow-sm);
+}
+.plume-preview pre.plume-code > code {
+  display: block;
+  overflow-x: auto;
+  padding: 1.15rem 1.3rem;
+  background: transparent;
+}
+.plume-preview .plume-code-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.55rem 1rem;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  color: var(--fg-muted);
+  background: var(--bg-hover);
+  user-select: none;
+}
+.plume-preview .plume-code-toolbar button {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.25em 0.7em;
+  font: inherit;
+  background: var(--bg-raised);
+  color: var(--fg-muted);
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out);
+}
+.plume-preview .plume-code-toolbar button:hover {
+  background: var(--bg-active);
+  color: var(--fg);
+}
+.plume-preview .plume-diagram {
+  white-space: normal;
+  padding: 1.3rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-raised);
+  overflow-x: auto;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+.plume-preview .plume-diagram svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: auto;
+}
+.plume-preview .plume-chart {
+  height: 360px;
+  min-width: 0;
+  text-align: left;
+}
+.plume-preview .plume-chart svg {
+  height: 100%;
+}
+.plume-preview .plume-render-error {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  text-align: left;
+  font: var(--text-sm)/1.6 var(--font-ui);
+  color: var(--fg-muted);
+  background: var(--bg-hover);
+  white-space: pre-wrap;
+}
+.plume-preview .plume-render-error strong {
+  color: var(--danger);
+}
+.plume-preview [data-math-style="display"] {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em 0;
+}
+.plume-preview .katex-display {
+  margin: 0.7em 0;
+}
+.plume-preview img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+}
+.plume-preview hr {
+  height: 1px;
+  border: none;
+  background: var(--border);
+  margin: 2.5em 0;
+}
+.plume-preview kbd {
+  background: var(--bg-raised);
+  border: 1px solid var(--border-strong);
+  border-bottom-width: 2px;
+  padding: 0.1em 0.4em;
+  border-radius: var(--radius-sm);
+  font-size: 0.85em;
+}
+.plume-preview mark {
+  background: var(--accent-soft);
+  color: var(--fg);
+  padding: 0.1em 0.2em;
+}
+.plume-preview details {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0.8em 1.2em;
+  margin: 1.4em 0;
+}
+.plume-preview summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.plume-preview details[open] summary {
+  margin-bottom: 0.8em;
+}
+.plume-preview .footnotes {
+  border-top: 1px solid var(--border);
+  margin-top: 3em;
+  padding-top: 1.3em;
+  color: var(--fg-muted);
+  font-size: 0.85em;
+}
+@media (max-width: 600px) {
+  .plume-preview {
+    padding: 1.6rem 1.2rem 3rem;
+  }
+  .plume-preview h1 {
+    font-size: 1.85em;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .plume-preview * {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .plume-preview,
+  .plume-preview * {
+    visibility: visible;
+  }
+  .plume-preview {
+    position: absolute;
+    inset: 0;
+    max-width: none;
+    width: 100%;
+    padding: 0;
+    background: var(--bg-raised);
+    font-size: 11pt;
+  }
+  .plume-preview .plume-code-toolbar button,
+  .plume-preview .plume-heading-anchor {
+    display: none;
+  }
+  .plume-preview pre,
+  .plume-preview table,
+  .plume-preview .plume-diagram,
+  .plume-preview .markdown-alert {
+    break-inside: avoid;
+    box-shadow: none;
+  }
+  .plume-preview h1,
+  .plume-preview h2,
+  .plume-preview h3 {
+    break-after: avoid;
+  }
+  .plume-preview pre.plume-code > code {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+  .plume-preview table {
+    display: table;
+    width: 100%;
+    overflow: visible;
+  }
+  .plume-preview p {
+    orphans: 3;
+    widows: 3;
+  }
+}
+/* Reading remains comfortable in a split pane, including oversized SVGs. */
+.plume-preview li.plume-task-item {
+  list-style: none;
+  padding-left: 0;
+  margin-left: -1.4em;
+}
+.plume-preview li.plume-task-item > p {
+  display: inline;
+}
+.plume-preview pre.plume-code {
+  position: relative;
+}
+.plume-preview .plume-code-toolbar button {
+  opacity: 0;
+  transition:
+    opacity var(--dur-fast) var(--ease-out),
+    background var(--dur-fast) var(--ease-out);
+}
+.plume-preview pre.plume-code:hover .plume-code-toolbar button,
+.plume-preview pre.plume-code:focus-within .plume-code-toolbar button {
+  opacity: 1;
+}
+.plume-preview .plume-diagram {
+  position: relative;
+  overflow: visible;
+}
+.plume-preview .plume-diagram-content {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.plume-preview .plume-diagram-content > svg {
+  max-width: none;
+  height: auto;
+}
+.plume-preview .plume-chart {
+  overflow: visible;
+}
+.plume-preview .plume-chart .plume-diagram-content {
+  height: 100%;
+  overflow: hidden;
+}
+.plume-preview .plume-chart svg {
+  height: auto;
+  margin: 0;
+}
+.plume-expand-button {
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-raised);
+  color: var(--fg-muted);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-out);
+  z-index: 2;
+}
+.plume-expand-button svg {
+  width: 16px !important;
+  height: 16px !important;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+.plume-diagram:hover > .plume-expand-button,
+.plume-diagram:focus-within > .plume-expand-button {
+  opacity: 1;
+}
+.plume-expand-button:hover {
+  color: var(--accent);
+  background: var(--bg-hover);
+}
+.plume-diagram-viewer {
+  width: calc(100vw - 32px);
+  height: calc(100vh - 32px);
+  max-width: none;
+  max-height: none;
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  color: var(--fg);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  font: var(--text-md)/1.4 var(--font-ui);
+}
+.plume-diagram-viewer[open] {
+  display: flex;
+  flex-direction: column;
+  animation: plume-viewer-in var(--dur-med) var(--ease-out);
+}
+.plume-diagram-viewer::backdrop {
+  background: color-mix(in srgb, var(--fg) 28%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.plume-viewer-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 1.1rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-chrome);
+}
+.plume-viewer-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.plume-viewer-controls button {
+  min-width: 32px;
+  height: 32px;
+  padding: 0 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font: inherit;
+  background: var(--bg-raised);
+  color: var(--fg);
+  cursor: pointer;
+}
+.plume-viewer-controls button:hover {
+  background: var(--bg-hover);
+}
+.plume-viewer-controls output {
+  min-width: 66px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  color: var(--fg-muted);
+}
+.plume-diagram-viewer :focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+.plume-viewer-viewport {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+.plume-viewer-viewport.is-dragging {
+  cursor: grabbing;
+}
+.plume-viewer-stage.plume-preview {
+  position: absolute;
+  left: 0;
+  top: 0;
+  max-width: none;
+  width: max-content;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  transform-origin: 0 0;
+}
+.plume-viewer-stage > div {
+  position: static !important;
+}
+@keyframes plume-viewer-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (hover: none) {
+  .plume-expand-button,
+  .plume-preview .plume-code-toolbar button {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .plume-diagram-viewer[open] {
+    animation: none;
+  }
+}
+@media print {
+  .plume-expand-button,
+  .plume-diagram-viewer {
+    display: none !important;
+  }
+  .plume-preview .plume-diagram-content {
+    overflow: visible;
+  }
+  .plume-preview .plume-diagram-content > svg {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+.plume-preview ul.plume-task-list {
+  padding-left: 0;
+}
+.plume-preview ul.plume-task-list > li.plume-task-item {
+  margin-left: 0;
+}
+.plume-preview .plume-task-item > ul.plume-task-list {
+  padding-left: 1.5em;
+}
+/* Prepare chart layout at page width before the native print snapshot. */
+.plume-preview.plume-print-preparing {
+  width: 760px;
+  max-width: none;
+}
+.plume-preview .plume-chart .plume-diagram-content > div {
+  margin-inline: auto;
+}
+@media print {
+  .plume-preview.plume-print-preparing {
+    width: 100%;
+  }
+}

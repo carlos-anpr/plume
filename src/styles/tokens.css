@@ -1,0 +1,114 @@
+/* Tokens de diseño de Plume. Toda la UI y la vista previa usan SOLO estas variables.
+   Dirección: papel cálido y tinta profunda, una sola tinta de acento, superficies
+   en capas con bordes de 1px muy suaves, sombras largas y difusas, esquinas 10-14px. */
+
+:root {
+  color-scheme: light;
+
+  /* Superficies (de fondo a primer plano) */
+  --bg-app: #f4f2ee;          /* marco de la ventana */
+  --bg-chrome: #efece6;       /* barra de título, pestañas, barra de estado */
+  --bg-surface: #fbfaf8;      /* editor y vista previa */
+  --bg-raised: #ffffff;       /* menús, paneles flotantes, tarjetas */
+  --bg-sunken: #ebe8e1;       /* bloques de código, inputs */
+  --bg-hover: rgba(40, 32, 20, 0.055);
+  --bg-active: rgba(40, 32, 20, 0.09);
+  --bg-selection: rgba(92, 84, 230, 0.18);
+
+  /* Texto */
+  --fg: #1f1c18;
+  --fg-muted: #6b655c;
+  --fg-subtle: #9a938a;
+  --fg-on-accent: #ffffff;
+
+  /* Acento (iris) y semánticos */
+  --accent: #5b54e6;
+  --accent-hover: #4d46d6;
+  --accent-soft: rgba(91, 84, 230, 0.12);
+  --info: #2f7de1;
+  --success: #1f9d6b;
+  --warning: #c98a0e;
+  --danger: #d6455d;
+
+  /* Bordes y sombras */
+  --border: rgba(40, 32, 20, 0.1);
+  --border-strong: rgba(40, 32, 20, 0.18);
+  --ring: 0 0 0 3px rgba(91, 84, 230, 0.28);
+  --shadow-sm: 0 1px 2px rgba(30, 24, 16, 0.06);
+  --shadow-md: 0 4px 14px -4px rgba(30, 24, 16, 0.12), 0 1px 3px rgba(30, 24, 16, 0.06);
+  --shadow-lg: 0 24px 60px -18px rgba(30, 24, 16, 0.28), 0 2px 8px rgba(30, 24, 16, 0.08);
+
+  /* Paleta categórica para gráficos y diagramas (en orden) */
+  --chart-1: #5b54e6;
+  --chart-2: #1f9d8b;
+  --chart-3: #e2853a;
+  --chart-4: #d6455d;
+  --chart-5: #3f8ee8;
+  --chart-6: #a35bd6;
+  --chart-7: #7d9a2e;
+  --chart-8: #b98a5f;
+
+  /* Tipografía */
+  --font-ui: "Inter Variable", "Segoe UI Variable", system-ui, sans-serif;
+  --font-read: "Inter Variable", "Segoe UI Variable", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", "Cascadia Code", ui-monospace, monospace;
+  --text-xs: 11.5px;
+  --text-sm: 12.5px;
+  --text-md: 13.5px;
+  --text-read: 16px;          /* cuerpo de la vista previa a zoom 100% */
+  --text-editor: 14.5px;      /* editor a zoom 100% */
+
+  /* Geometría */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --titlebar-h: 40px;
+  --statusbar-h: 28px;
+
+  /* Movimiento */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 120ms;
+  --dur-med: 220ms;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg-app: #121216;
+  --bg-chrome: #17171c;
+  --bg-surface: #1b1b21;
+  --bg-raised: #23232b;
+  --bg-sunken: #141419;
+  --bg-hover: rgba(255, 255, 255, 0.055);
+  --bg-active: rgba(255, 255, 255, 0.09);
+  --bg-selection: rgba(140, 133, 255, 0.28);
+
+  --fg: #ecebf2;
+  --fg-muted: #a3a2b0;
+  --fg-subtle: #6f6e7c;
+  --fg-on-accent: #ffffff;
+
+  --accent: #8c85ff;
+  --accent-hover: #a29cff;
+  --accent-soft: rgba(140, 133, 255, 0.16);
+  --info: #5aa2ff;
+  --success: #3ec98f;
+  --warning: #f0b232;
+  --danger: #ff6b81;
+
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+  --ring: 0 0 0 3px rgba(140, 133, 255, 0.35);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 6px 18px -6px rgba(0, 0, 0, 0.55), 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 28px 70px -20px rgba(0, 0, 0, 0.75), 0 2px 8px rgba(0, 0, 0, 0.5);
+
+  --chart-1: #8c85ff;
+  --chart-2: #3fc9b4;
+  --chart-3: #f2a057;
+  --chart-4: #ff6b81;
+  --chart-5: #5aa2ff;
+  --chart-6: #c38bff;
+  --chart-7: #a5c64a;
+  --chart-8: #d6ad83;
+}

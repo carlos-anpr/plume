@@ -1,0 +1,44 @@
+[package]
+name = "plume"
+version = "0.1.0"
+description = "Bloc de notas con vista previa Markdown"
+authors = ["Carlos Anton"]
+license = "MIT"
+repository = "https://github.com/carlos-anpr/plume"
+edition = "2024"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+# The `_lib` suffix may seem redundant but it is necessary
+# to make the lib name unique and wouldn't conflict with the bin name.
+# This seems to be only an issue on Windows, see https://github.com/rust-lang/cargo/issues/8519
+name = "plume_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["protocol-asset"] }
+tauri-plugin-opener = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+comrak = { version = "0.56.0", default-features = false }
+syntect = "5.3.0"
+ammonia = "4.2.3"
+encoding_rs = "0.8.42"
+chardetng = "1.0.0"
+notify = "8.2.0"
+tempfile = "3.27.0"
+tauri-plugin-dialog = "2.8.2"
+tauri-plugin-single-instance = "2.5.3"
+
+
+# Read the optimization guideline for more details: https://tauri.app/concept/size/#cargo-configuration
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = 3
+panic = "abort"
+strip = true
