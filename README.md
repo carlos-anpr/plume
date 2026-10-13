@@ -177,19 +177,19 @@ Compila, instala en `~/.local`, añade Plume al cajón de aplicaciones y lo regi
 
 ```mermaid
 flowchart LR
-    subgraph UI["Interfaz · TypeScript"]
-        E[CodeMirror 6] -->|debounce| P[Vista previa]
-        P --> M[Mermaid]
-        P --> K[KaTeX]
-        P --> C[ECharts]
+    subgraph ui["Interfaz (TypeScript)"]
+        editor["CodeMirror 6"] -->|debounce| preview["Vista previa"]
+        preview --> mm["Mermaid"]
+        preview --> kx["KaTeX"]
+        preview --> ec["ECharts"]
     end
-    subgraph Core["Núcleo · Rust"]
-        R[comrak + syntect] --> S[ammonia]
-        F[Ficheros, codificación, vigilancia]
+    subgraph core["Núcleo (Rust)"]
+        render["comrak + syntect"] --> clean["ammonia"]
+        files["Ficheros, codificación y vigilancia"]
     end
-    E -- IPC --> R
-    S -- HTML saneado --> P
-    UI -- IPC --> F
+    editor -->|IPC| render
+    clean -->|HTML saneado| preview
+    editor -->|IPC| files
 ```
 
 - **Rust** (`src-tauri/`): render Markdown, saneado del HTML, lectura y escritura con detección de codificación, vigilancia de cambios, ajustes y recientes.
