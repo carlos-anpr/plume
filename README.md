@@ -175,22 +175,12 @@ Compila, instala en `~/.local`, añade Plume al cajón de aplicaciones y lo regi
 
 ## 🏗️ Cómo está hecho
 
-```mermaid
-flowchart LR
-    subgraph ui["Interfaz (TypeScript)"]
-        editor["CodeMirror 6"] -->|debounce| preview["Vista previa"]
-        preview --> mm["Mermaid"]
-        preview --> kx["KaTeX"]
-        preview --> ec["ECharts"]
-    end
-    subgraph core["Núcleo (Rust)"]
-        render["comrak + syntect"] --> clean["ammonia"]
-        files["Ficheros, codificación y vigilancia"]
-    end
-    editor -->|IPC| render
-    clean -->|HTML saneado| preview
-    editor -->|IPC| files
-```
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/arquitectura-dark.svg">
+    <img src="docs/arquitectura-light.svg" alt="Arquitectura: la interfaz en TypeScript envía el texto por IPC al núcleo en Rust, que devuelve HTML saneado a la vista previa" width="100%">
+  </picture>
+</p>
 
 - **Rust** (`src-tauri/`): render Markdown, saneado del HTML, lectura y escritura con detección de codificación, vigilancia de cambios, ajustes y recientes.
 - **Interfaz** (`src/`): TypeScript sin framework sobre el webview del sistema. El paquete final ocupa unos 7 MB.
