@@ -135,6 +135,8 @@ export function createPreview(container: HTMLElement): PreviewApi {
   let scrollCallback: ((line: number) => void) | undefined;
   let blockCallback: ((line: number) => void) | undefined;
   let scrollFrame = 0;
+  // Destino del último scroll hecho por scrollToLine: su evento no se reenvía al editor.
+  let programmaticTop: number | null = null;
   const positions = () =>
     Array.from(root.querySelectorAll<HTMLElement>(sourceBlocks))
       .map((el) => {
@@ -166,8 +168,13 @@ export function createPreview(container: HTMLElement): PreviewApi {
         (line - block.start) / Math.max(1, block.end - block.start + 1),
       ),
     );
+    const top = Math.min(
+      block.top + fraction * block.height,
+      container.scrollHeight - container.clientHeight,
+    );
+    programmaticTop = smooth ? null : Math.max(0, top);
     container.scrollTo({
-      top: block.top + fraction * block.height,
+      top,
       behavior:
         smooth && !matchMedia("(prefers-reduced-motion: reduce)").matches
           ? "smooth"
@@ -178,6 +185,10 @@ export function createPreview(container: HTMLElement): PreviewApi {
     if (scrollFrame) return;
     scrollFrame = requestAnimationFrame(() => {
       scrollFrame = 0;
+      const expected = programmaticTop;
+      programmaticTop = null;
+      if (expected !== null && Math.abs(container.scrollTop - expected) <= 1)
+        return;
       const blocks = positions();
       const atTop =
         blocks

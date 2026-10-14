@@ -1111,15 +1111,16 @@ export class App implements AppCtx {
   }
 
   private wireScrollSync(): void {
-    let lastSent = 0;
+    let frame = 0;
     const onEditorScroll = (): void => {
-      const tab = this.activeTab;
-      if (!tab || tab.mode !== "split") return;
-      if (Date.now() < this.syncLock) return;
-      const now = Date.now();
-      if (now - lastSent < 60) return;
-      lastSent = now;
-      this.preview.scrollToLine(this.topLine(), false);
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        const tab = this.activeTab;
+        if (!tab || tab.mode !== "split") return;
+        if (Date.now() < this.syncLock) return;
+        this.preview.scrollToLine(this.topLine(), false);
+      });
     };
     this.view.scrollDOM.addEventListener("scroll", onEditorScroll, { passive: true });
 
@@ -1142,12 +1143,14 @@ export class App implements AppCtx {
     });
   }
 
+  /** Línea superior visible del editor, con la fracción ya desplazada de esa línea. */
   private topLine(): number {
     try {
-      const rect = this.view.scrollDOM.getBoundingClientRect();
-      const pos = this.view.posAtCoords({ x: rect.left + 16, y: rect.top + 4 });
-      if (pos === null) return 1;
-      return this.view.state.doc.lineAt(pos).number;
+      const height =
+        this.view.scrollDOM.getBoundingClientRect().top - this.view.documentTop;
+      const block = this.view.lineBlockAtHeight(Math.max(0, height));
+      const fraction = clamp((height - block.top) / Math.max(1, block.height), 0, 0.999);
+      return this.view.state.doc.lineAt(block.from).number + fraction;
     } catch {
       return 1;
     }
